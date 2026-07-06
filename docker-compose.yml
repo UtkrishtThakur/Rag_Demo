@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    container_name: ragdemo-app
+    working_dir: /app
+    network_mode: host
+    stdin_open: true
+    tty: true
+
+    volumes:
+      - ./:/app
+      - ./data:/app/data
+      - ./vector_db:/app/vector_db
+      - model_cache:/models
+
+    environment:
+      CHROMA_HOST: 127.0.0.1
+      CHROMA_PORT: 8000
+      CHROMA_MODE: http
+      COLLECTION_NAME: rag_demo
+
+      EMBED_MODEL: sentence-transformers/all-MiniLM-L6-v2
+      CHUNK_SIZE: 900
+      CHUNK_OVERLAP: 150
+      TOP_K: 5
+
+      OLLAMA_HOST: http://127.0.0.1:11434
+      OLLAMA_MODEL: qwen3:8b
+
+    depends_on:
+      - chroma
+
+    command: bash
+
+  chroma:
+    image: chromadb/chroma:latest
+    container_name: ragdemo-chroma
+    network_mode: host
+    restart: unless-stopped
+    volumes:
+      - ./vector_db:/chroma/chroma
+
+volumes:
+  model_cache:

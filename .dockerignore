@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.git/
+vector_db/
+data/
+mysql_data/
+.env
