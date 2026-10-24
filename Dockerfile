@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     curl \
     git \
+    bash \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
@@ -18,4 +19,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["bash"]
+# Install local RAG Inspector SDK in editable mode with development dependencies
+RUN pip install --no-cache-dir -e "./rag-inspector-sdk[dev]"
+
+CMD ["streamlit", "run", "frontend/app.py", "--server.port", "8501", "--server.address", "0.0.0.0"]

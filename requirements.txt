@@ -6,3 +6,5 @@ fastapi
 uvicorn
 python-dotenv
 ollama
+streamlit
+pytest

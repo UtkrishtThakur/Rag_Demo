@@ -1,8 +1,7 @@
-version: "3.9"
-
 services:
   app:
     build: .
+    image: ragdemo-app:latest
     container_name: ragdemo-app
     working_dir: /app
     network_mode: host
@@ -16,6 +15,7 @@ services:
       - model_cache:/models
 
     environment:
+      PYTHONPATH: /app
       CHROMA_HOST: 127.0.0.1
       CHROMA_PORT: 8000
       CHROMA_MODE: http
@@ -32,7 +32,7 @@ services:
     depends_on:
       - chroma
 
-    command: bash
+    command: streamlit run frontend/app.py --server.port 8501 --server.address 0.0.0.0
 
   chroma:
     image: chromadb/chroma:latest

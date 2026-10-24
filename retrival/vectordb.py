@@ -227,6 +227,16 @@ class ChromaVectorDB:
     def count(self) -> int:
         return int(self._active_collection.count())
 
+    def document_count(self) -> int:
+        result = self._active_collection.get(include=["metadatas"])
+        files = set()
+        for meta in result.get("metadatas", []):
+            if meta:
+                name = meta.get("file_name") or meta.get("filename")
+                if name:
+                    files.add(name)
+        return len(files)
+
     def peek(self, limit: int = 5) -> Dict[str, Any]:
         if limit <= 0:
             raise ValueError("limit must be > 0")

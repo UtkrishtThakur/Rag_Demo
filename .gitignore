@@ -1,3 +1,21 @@
+# Environment variables
 .env
+
+# Virtual environment and caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+dist/
+build/
+
+# Application persistence
 data/
 vector_db/
+*.sqlite
+mysql_data/
+experiment_results/
+evaluation_output/
